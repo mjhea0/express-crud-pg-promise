@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const db = require('../db/connection');
+const queries = require('../db/queries');
 
 // get ALL beers
 router.get('/', (req, res, next) => {
-  db.any('SELECT * FROM beer')
+  queries.getAll('beer')
   .then((beers) => {
     res.send(beers);
   })
@@ -17,7 +17,7 @@ router.get('/', (req, res, next) => {
 // get a SINGLE beer
 router.get('/:id', (req, res, next) => {
   const beerID = parseInt(req.params.id);
-  db.any(`SELECT * FROM beer WHERE id = ${beerID}`)
+  queries.getSingle('beer', beerID)
     .then((beer) => {
       if (beer.length) {
         res.send(beer[0]);
@@ -41,7 +41,7 @@ router.post('/', (req, res, next) => {
     brand: req.body.brand,
     style: req.body.style
   };
-  db.any(`INSERT INTO beer (name, abv, brand, style) VALUES('${newBeer.name}', ${newBeer.abv}, '${newBeer.brand}', '${newBeer.style}')`)
+  queries.add('beer', newBeer)
   .then((beers) => {
     res.send('You added a beer!');
   })
@@ -54,7 +54,7 @@ router.put('/:id', (req, res, next) => {
   const beerID = parseInt(req.params.id);
   const field = req.body.field;
   const value = req.body.value;
-  db.any(`UPDATE beer SET ${field} = ${value} WHERE id = ${beerID} returning id`)
+  queries.updateSingle('beer', beerID, field, value)
   .then((beer) => {
     if (!beer.length) {
       res.status(404).send({
@@ -72,7 +72,7 @@ router.put('/:id', (req, res, next) => {
 
 router.delete('/:id', (req, res, next) => {
   const beerID = parseInt(req.params.id);
-    db.any(`DELETE FROM beer WHERE id=${beerID} returning id`)
+    queries.deleteSingle('beer', beerID)
     .then((beer) => {
       if (!beer.length) {
         res.status(404).send({

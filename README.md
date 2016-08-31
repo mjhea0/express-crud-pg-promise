@@ -21,3 +21,9 @@ $ http POST http://localhost:3000/api/v1/beers name=concentration abv=9 brand="r
 $ http PUT http://localhost:3000/api/v1/beers/2 field=abv value=222
 $ http DELETE http://localhost:3000/api/v1/beers/1
 ```
+
+## Versions
+
+1. [Method 1](https://github.com/mjhea0/express-crud-pg-promise)
+  * Pro: Easy to set up and understand
+  * Con: Hard to test and scale
