@@ -1,6 +1,6 @@
-# Express CRUD with PG Promise
+# Express CRUD with pg-promise
 
-Just a basic CRUD app with [pg-promise](pg-promise)
+Just a basic Node + Express CRUD app with [pg-promise](pg-promise)
 
 ## Getting Started
 
@@ -11,6 +11,8 @@ Just a basic CRUD app with [pg-promise](pg-promise)
 1. `gulp`
 
 ## Sample Requests
+
+With [HTTPie](http://httpie.org/):
 
 ```sh
 $ http GET http://localhost:3000/api/v1/beers
