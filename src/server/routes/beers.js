@@ -5,32 +5,25 @@ const queries = require('../db/queries');
 
 // get ALL beers
 router.get('/', (req, res, next) => {
-  queries.getAll('beer')
-  .then((beers) => {
-    res.send(beers);
-  })
-  .catch((error) => {
-    next(error);
+  queries.getAll('beer', (err, result) => {
+    if (err) {
+      next(err);
+    } else {
+      res.send(result);
+    }
   });
 });
 
 // get a SINGLE beer
 router.get('/:id', (req, res, next) => {
   const beerID = parseInt(req.params.id);
-  queries.getSingle('beer', beerID)
-    .then((beer) => {
-      if (beer.length) {
-        res.send(beer[0]);
-      } else {
-        res.status(404).send({
-          status: 'error',
-          message: 'That beer doesn\'t exist'
-        });
-      }
-    })
-    .catch((error) => {
-      next(error);
-    });
+  queries.getSingle('beer', beerID, (err, result) => {
+    if (err) {
+      next(err);
+    } else {
+      res.send(result);
+    }
+  });
 });
 
 // add a beer
@@ -41,52 +34,40 @@ router.post('/', (req, res, next) => {
     brand: req.body.brand,
     style: req.body.style
   };
-  queries.add('beer', newBeer)
-  .then((beers) => {
-    res.send('You added a beer!');
-  })
-  .catch((error) => {
-    next(error);
+  queries.add('beer', newBeer, (err, result) => {
+    if (err) {
+      next(err);
+    } else {
+      res.send(result);
+    }
   });
 });
 
+// update a SINGLE beer
 router.put('/:id', (req, res, next) => {
   const beerID = parseInt(req.params.id);
   const field = req.body.field;
   const value = req.body.value;
-  queries.updateSingle('beer', beerID, field, value)
-  .then((beer) => {
-    if (!beer.length) {
-      res.status(404).send({
-        status: 'error',
-        message: 'That beer doesn\'t exist'
-      });
+  queries.updateSingle(
+    'beer', beerID, field, value, (err, result) => {
+    if (err) {
+      next(err);
     } else {
-      res.send('You updated a beer!');
+      res.send(result);
     }
-  })
-  .catch((error) => {
-    next(error);
   });
 });
 
+// delete a SINGLE beer
 router.delete('/:id', (req, res, next) => {
   const beerID = parseInt(req.params.id);
-    queries.deleteSingle('beer', beerID)
-    .then((beer) => {
-      if (!beer.length) {
-        res.status(404).send({
-          status: 'error',
-          message: 'That beer doesn\'t exist'
-        });
-      } else {
-        res.send('You deleted a beer!');
-      }
-    })
-    .catch((error) => {
-      next(error);
-    });
+  queries.deleteSingle('beer', beerID, (err, result) => {
+    if (err) {
+      next(err);
+    } else {
+      res.send(result);
+    }
+  });
 });
-
 
 module.exports = router;
