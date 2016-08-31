@@ -1,8 +1,7 @@
 const db = require('./connection');
 
-function getAll(tableName) {
-  return db.any(
-    `SELECT * FROM ${tableName}`);
+function getAll(tableName, callback) {
+  return db.any(`SELECT * FROM ${tableName}`);
 }
 
 function getSingle(tableName, id) {
@@ -14,9 +13,8 @@ function add(tableName, obj) {
   return db.any(`INSERT INTO beer (name, abv, brand, style) VALUES('${obj.name}', ${obj.abv}, '${obj.brand}', '${obj.style}')`);
 }
 
-function updateSingle(tableName, id) {
-  return db.any(
-    `SELECT * FROM ${tableName} WHERE id = ${id}`);
+function updateSingle(tableName, id, field, value) {
+  return db.any(`UPDATE beer SET ${field} = ${value} WHERE id = ${id} returning id`);
 }
 
 function deleteSingle(tableName, id) {
