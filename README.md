@@ -29,7 +29,7 @@ $ http DELETE http://localhost:3000/api/v1/beers/1
   * Con: Hard to test and scale
 1. [Method 2](https://github.com/mjhea0/express-crud-pg-promise/tree/method2)
   * Pro: Easier to test and scale
-  * Con: Harder to update and understand
+  * Con: Harder to set up and understand
 1. [Method 3](https://github.com/mjhea0/express-crud-pg-promise/tree/method3)
   * Pro: Easiest to test and scale
-  * Con: Hardest to update and understand
+  * Con: Hardest to set up and understand
